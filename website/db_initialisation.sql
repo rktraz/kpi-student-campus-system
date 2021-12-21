@@ -24,28 +24,23 @@ CREATE TABLE IF NOT EXISTS faculties (
 
 CREATE TABLE IF NOT EXISTS residents (
     id SERIAL PRIMARY KEY,
-    name VARCHAR (32) NOT NULL,
-    surname VARCHAR (64) NOT NULL,
+    first_name VARCHAR (32) NOT NULL,
+    last_name VARCHAR (64) NOT NULL,
     email VARCHAR (64) NOT NULL UNIQUE,
     room  VARCHAR (32) NOT NULL,
     course INTEGER NOT NULL,
-    'group' VARCHAR (32),
-    faculty_id INTEGER UNIQUE NOT NULL REFERENCES faculties (id),
-    dormitory_id INTEGER UNIQUE NOT NULL REFERENCES dormitories (id)
+    "group" VARCHAR (32),
+    faculty_id INTEGER NOT NULL REFERENCES faculties (id),
+    dormitory_id INTEGER NOT NULL REFERENCES dormitories (id)
 
 );
-
-CREATE TYPE MONTH AS ENUM ('January', 'February', 'March',
-    'April', 'May', 'June', 'July', 'August', 'September',
-    'October', 'November', 'December');
 
 CREATE TABLE IF NOT EXISTS payments (
     id SERIAL PRIMARY KEY,
     time TIMESTAMP DEFAULT now(),
-    month_payed MONTH NOT NULL,
+    month_payed INTEGER NOT NULL,
     resident_id INTEGER UNIQUE NOT NULL REFERENCES residents (id)
 );
-
 
 INSERT INTO public.administrators (id, first_name, last_name, email, password)
 VALUES (1, 'default', 'default', 'email1@email.com', 'sha256$jyapm1KvL7v2S43S$2a916c8cf7848cbbaca30f8dabae09d84ff51f2b9955cd78112334cf7371e0dd');
