@@ -1,0 +1,6 @@
+flask~=2.0.2
+Flask-SQLAlchemy
+flask-login
+Werkzeug~=2.0.2
+SQLAlchemy~=1.4.28
+psycopg2~=2.9.2

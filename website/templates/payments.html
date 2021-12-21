@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block title %}Payments{% endblock %} {% block content %}
+    <br/>
+
+    <div class="columns">
+    <div class="column" style="padding: 0 20% 5% 20%">
+        <div class="card">
+            <div class="notification is-dark has-text-centered">
+                <h1 class="title is-4"><span class="material-icons">
+account_balance
+</span> Payments of {{ current_user.id }} dormitory <span class="material-icons">
+account_balance
+</span></h1>
+            </div>
+        </div>
+        <br/>
+
+
+        <table id="example" class="table is-hoverable is-bordered is-fullwidth">
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>Month payed</th>
+                <th>Payer email</th>
+
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Time</th>
+                <th>Month payed</th>
+                <th>Payer email</th>
+
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for i in range(length) %}
+                <tr>
+                    <td>{{ dates[i] }}</td>
+                    <td>{{ months[i] }}</td>
+                    <td>{{ payer_emails[i] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

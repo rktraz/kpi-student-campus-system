@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block title %}Dormitory info{% endblock %} {% block content %}
+    <br/>
+
+    <div class="columns">
+        <div class="column is-9" style="padding: 0 0 5% 5%">
+
+
+            <div class="card">
+
+                {#<div class="container is-max-desktop">#}
+
+
+                <div class="notification is-danger has-text-centered">
+                    <h1 class="title is-4"><span class="material-icons">
+format_list_bulleted
+</span> Residents of {{ current_user.id }} dormitory <span class="material-icons">
+format_list_bulleted
+</span></h1>
+                </div>
+            </div>
+            <br/>
+
+
+            <table id="example" class="table is-hoverable is-bordered is-fullwidth">
+                <thead>
+                <tr>
+                    <th>First name</th>
+                    <th>Second name</th>
+                    <th>Email</th>
+                    <th>Room</th>
+                    <th>Course</th>
+                    <th>Group</th>
+                    <th>Faculty</th>
+                    <th>Paid</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>First name</th>
+                    <th>Second name</th>
+                    <th>Email</th>
+                    <th>Room</th>
+                    <th>Course</th>
+                    <th>Group</th>
+                    <th>Faculty</th>
+                    <th>Paid</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                {% for record, paid_status in residents_paid_status_zipped %}
+                    <tr>
+                        <td>{{ record[1] }}</td>
+                        <td>{{ record[2] }}</td>
+                        <td>{{ record[3] }}</td>
+                        <td>{{ record[4] }}</td>
+                        <td>{{ record[5] }}</td>
+                        <td>{{ record[6] }}</td>
+                        <td>{{ faculties_dict[record[7]] }}</td>
+                        <td>{{ paid_status }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="column" style="padding: 5% 5% 5% 2%">
+            <div class="card has-text-centered">
+                <div class="notification is-info">
+                    <h1 class="title is-4"><span class="material-icons">
+featured_play_list
+</span> General info <span class="material-icons">
+featured_play_list
+</span></h1>
+                </div>
+            </div>
+
+            <table class="table is-full">
+                <thead>
+                </thead>
+                <tbody>
+                <tr>
+                    <th><abbr>Total residents</abbr></th>
+                    <td>{{ number_of_residents }}</td>
+                </tr>
+
+                <tr>
+                    <th><abbr>Height</abbr></th>
+                    <td>{{ max_floor }} floors</td>
+                </tr>
+
+                <tr>
+                    <th>Most frequent faculty</th>
+                    <td>{{ faculties_dict[popular_faculty[current_user.id][1]] }}</td>
+                </tr>
+
+                <tr>
+                    <th>Number of debtors</th>
+                    <td>{{ number_of_debtors }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+{% endblock %}

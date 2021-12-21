@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+
+    <br/>
+    <div class="columns">
+    <div class="column" style="padding: 0 20% 5% 20%">
+        <div class="card">
+            <div class="notification is-primary is-mobile has-text-centered">
+                <h1 class="title is-4"><span class="material-icons">
+dns
+</span> KPI Campus System <span class="material-icons">
+dns
+</span></h1>
+            </div>
+        </div>
+
+
+        <table class="table is-hoverable is-bordered is-fullwidth">
+            <thead>
+            <tr>
+                <th><abbr>Dormitory number</abbr></th>
+                <th>Address</th>
+                <th>Number of residents</th>
+                <th>Most frequent faculty</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th><abbr>Dormitory number</abbr></th>
+                <th>Address</th>
+                <th>Number of residents</th>
+                <th>Most frequent faculty</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for dormitory, number_of_residents, popular_faculty in dormitories_residents_faculties_zip %}
+                <tr>
+                    <th>{{ dormitory[0] }}</th>
+                    <td>{{ dormitory[1] }}</td>
+                    <td>{{ number_of_residents[1] }}</td>
+                    <td>{{ faculties_dict[popular_faculty[1]] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

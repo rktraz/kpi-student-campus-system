@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="../static/css/bulma.min.css">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+    <div class="notification is-danger is-light" role="alert">
+        {{ message }}
+
+    </div>
+{% else %}
+    <div class="notification is-danger is-light" role="alert">
+        {{ message }}
+
+    </div>
+{% endif %} {% endfor %} {% endif %} {% endwith %}
+
+
+<div class="container">
+
+    <section class="section">
+        <div class="container">
+
+            <div class="columns is-mobile has-text-centered">
+                <div class="column is-half is-offset-one-quarter">
+
+                    <div class="card">
+                        <div class="card-content">
+                            <form method="POST">
+                                <h3 class="title is-3">Sign up</h3>
+                                <br/>
+                                <div class="form-group">
+                                    <label class="label" for="email">Email</label>
+                                    <input
+                                            type="email"
+                                            class="input"
+                                            id="email"
+                                            name="email"
+                                            placeholder="Enter your email address"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="label" for="password">First Name</label>
+                                    <input
+                                            type="text"
+                                            class="input"
+                                            id="firstName"
+                                            name="firstName"
+                                            placeholder="Enter first name"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="label" for="password">Last name</label>
+                                    <input
+                                            type="text"
+                                            class="input"
+                                            id="last_name"
+                                            name="last_name"
+                                            placeholder="Enter your surname"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="label" for="password">Password</label>
+                                    <input
+                                            type="password"
+                                            class="input"
+                                            id="password1"
+                                            name="password1"
+                                            placeholder="Enter password"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="label" for="password">Password (Confirm)</label>
+                                    <input
+                                            type="password"
+                                            class="input"
+                                            id="password2"
+                                            name="password2"
+                                            placeholder="Confirm password"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                <br/>
+
+                                    <label class="label" for="password">Registration code (Provided by your
+                                        sysadmin)</label>
+                                    <input
+                                            type="text"
+                                            class="input"
+                                            id="registration_code"
+                                            name="registration_code"
+                                            placeholder="Enter your registration code"
+                                    />
+                                    <br/>
+                                    <br/>
+
+
+                                    <div class="field">
+                                        <p class="control">
+                                            <button type="submit" value="login" class="button is-success">
+                                                Sign up
+                                            </button>
+                                        </p>
+                                    </div>
+
+                                    <a class="button" id="login" href="/login">
+                                        Back to login
+                                    </a>
+                                    {#  <button type="submit" class="btn btn-primary">Login</button>#}
+
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+</div>
+
+</body>
+</html>
