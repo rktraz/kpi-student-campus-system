@@ -30,3 +30,7 @@ python main.py
 ## Viewing The App
 
 Go to `http://127.0.0.1:5000`
+
+## DEV notes
+
+There is only one administrator for one dormitory - also you should have a registration code to register new administrator (see registration_codes.json and generate_registration_codes.py files)
