@@ -11,7 +11,7 @@ class Administrator(db.Model, UserMixin):
     first_name = db.Column(db.String(32))
     last_name = db.Column(db.String(64))
     password = db.Column(db.String(512))
-    dormitories = db.relationship("Dormitory")
+    dormitories = db.relationship("Dormitory", cascade="all, delete", passive_deletes=True)
 
     def update(self, commit=True, **kwargs):
         """Update specific fields of a record."""
@@ -25,15 +25,15 @@ class Dormitory(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, index=True, autoincrement=True)
     number = db.Column(db.Integer)
     address = db.Column(db.String(256), unique=True)
-    administrator_id = db.Column(db.Integer, db.ForeignKey('administrators.id'),  nullable=True)
-    resident = db.relationship("Resident")
+    administrator_id = db.Column(db.Integer, db.ForeignKey('administrators.id', ondelete="cascade"),  nullable=True)
+    resident = db.relationship("Resident", cascade="all, delete", passive_deletes=True)
 
 
 class Faculty(db.Model):
     __tablename__ = 'faculties'
     id = db.Column(db.Integer, primary_key=True, unique=True, index=True, autoincrement=True)
     name = db.Column(db.String(64), unique=True)
-    resident = db.relationship("Resident")
+    resident = db.relationship("Resident", cascade="all, delete", passive_deletes=True)
 
 
 class Resident(db.Model):
@@ -45,8 +45,8 @@ class Resident(db.Model):
     room = db.Column(db.Integer)
     course = db.Column(db.Integer)
     group = db.Column(db.String(8))
-    faculty_id = db.Column(db.Integer, db.ForeignKey('faculties.id'))
-    dormitory_id = db.Column(db.Integer, db.ForeignKey('dormitories.id'))
+    faculty_id = db.Column(db.Integer, db.ForeignKey('faculties.id', ondelete="cascade"))
+    dormitory_id = db.Column(db.Integer, db.ForeignKey('dormitories.id', ondelete="cascade"))
 
 
 class Payment(db.Model):
@@ -54,5 +54,5 @@ class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, index=True, autoincrement=True)
     time = db.Column(db.DateTime(timezone=True), default=func.now())
     month_payed = db.Column(db.String(16))
-    resident_id = db.Column(db.Integer, db.ForeignKey('residents.id'))
+    resident_id = db.Column(db.Integer, db.ForeignKey('residents.id', ondelete="cascade"))
 

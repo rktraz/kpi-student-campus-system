@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import func
 from datetime import datetime
@@ -140,3 +140,94 @@ def payments():
                            payer_emails=payer_emails,
                            length=len(dates)
                            )
+
+
+# this route is for inserting data to mysql database via html forms
+@views.route('/add_new_resident', methods=['GET', 'POST'])
+@login_required
+def add_new_resident():
+    print(request.form)
+    print(request.form.values())
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    email = request.form['email']
+    room = request.form['room']
+    course = request.form['course']
+    group = request.form['group']
+    faculty_id = request.form['faculty_id']
+    dormitory_id = current_user.id
+
+    faculties_dict = {
+        "IAT": 1,
+        "IEE": 2,
+        "IMZ": 3,
+        "IASA": 4,
+        "ISZZI": 5,
+        "ITS": 6,
+        "FBMI": 7,
+        "FBT": 8,
+        "FEA": 9,
+        "FEL": 10,
+        "FIOT": 11,
+        "FL": 12,
+        "FMM": 13,
+        "FPM": 14,
+        "FSP": 15
+    }
+
+    if type(faculty_id) == str:
+        faculty_id = faculties_dict[faculty_id]
+    new_resident = Resident(
+                            first_name=first_name, last_name=last_name,
+                            email=email, room=room, course=course,
+                            group=group, faculty_id=faculty_id,
+                            dormitory_id=dormitory_id
+                            )
+    db.session.add(new_resident)
+    db.session.commit()
+    db.session.add(Payment(
+        month_payed=datetime.now().month,
+        resident_id=Resident.query.filter(Resident.email == new_resident.email).first().id
+    ))
+    db.session.commit()
+
+    print(Resident.query.filter(Resident.email == new_resident.email).first(), new_resident.email)
+
+    flash("Resident was inserted successfully!")
+
+    return redirect(url_for('views.dormitory_info'))
+
+
+# this is our update route where we are going to update our employee
+@views.route('/update_info_about_resident', methods=['GET', 'POST'])
+@login_required
+def update_info_about_resident():
+    print(request.form)
+    resident_to_update = Resident.query.get(request.form.get('resident_id'))
+
+    resident_to_update.first_name = request.form['first_name']
+    resident_to_update.last_name = request.form['last_name']
+    resident_to_update.email = request.form['email']
+    resident_to_update.room = request.form['room']
+    resident_to_update.course = request.form['course']
+    resident_to_update.group = request.form['group']
+    resident_to_update.faculty_id = request.form['faculty_id']
+
+    db.session.commit()
+    flash("Resident was updated successfully.")
+
+    return redirect(url_for('views.dormitory_info'))
+
+
+# This route is for deleting our employee
+@views.route('/delete/<resident_id>/', methods=['GET', 'POST'])
+@login_required
+def delete(resident_id):
+    payment_to_delete = Payment.query.filter(Payment.resident_id == resident_id).first()
+    db.session.delete(payment_to_delete)
+    resident_to_delete = Resident.query.get(resident_id)
+    db.session.delete(resident_to_delete)
+    db.session.commit()
+    flash("Resident was deleted successfully.")
+
+    return redirect(url_for('views.dormitory_info'))
